@@ -1,52 +1,54 @@
 # Configuration Visualizer
 
-Given a JSON Schema file (`.json`), this app dynamically generates a visual configuration UI, lets users fill values, and exports a JSON configuration file that matches the schema.
+Schema-driven configuration UI built with JSON Forms.
 
-## Features
-- Load a local JSON Schema file.
-- Render form fields dynamically from schema properties.
-- Generate JSON output from user inputs.
-- Download output as `configuration.json`.
-- Basic validation for required fields and enum/type parsing.
+The app loads a JSON Schema (`.json`), renders a dynamic form, validates input live, and exports configuration JSON.
 
-## Supported Schema Types (Current MVP)
-- `object` (including nested objects)
-- `string`
-- `number`
-- `integer`
-- `boolean`
-- `enum`
+## Stack
+- React
+- JSON Forms (`@jsonforms/core`, `@jsonforms/react`, `@jsonforms/vanilla-renderers`)
+- Vite
 
 ## Project Structure
-- `index.html`: app layout
-- `styles.css`: styling
-- `app.js`: schema parsing, form generation, validation, export
-- `tests/schema-output.test.js`: regression tests for output behavior
-- `tests/fixtures/simple-schema.json`: schema fixture used by tests
-- `plan.md`: implementation roadmap
+- `jsonforms/index.html`: app entry
+- `jsonforms/src/App.jsx`: main UI logic (schema load, render, validation, export)
+- `jsonforms/src/defaultSchema.json`: built-in sample schema
+- `jsonforms/src/styles.css`: app styling
+- `jsonforms/src/main.jsx`: React bootstrap
+- `jsonforms/vite.config.mjs`: Vite config
+- `scripts/build-jsonforms-offline.mjs`: single-file offline bundle builder
+- `plan.md`: roadmap
 
-## Run Locally
-1. Open `index.html` in a browser.
-2. Select a JSON Schema file.
-3. Click `Load Schema`.
-4. Fill the generated fields.
-5. Click `Generate JSON`.
-6. Click `Download JSON`.
-
-## Tests
-Run:
-
+## Run (Dev)
 ```bash
-npm test
+npm install
+npm run dev:jsonforms
 ```
 
-The test suite checks:
-- expected JSON output generation for supported types
-- required field validation
-- enum validation
+## Build (Static)
+```bash
+npm run build:jsonforms
+```
+
+## Run Preview Server
+```bash
+npm run preview:jsonforms
+```
+
+## Build Offline Single File (`file://`)
+```bash
+npm run build:jsonforms:offline
+```
+
+Open:
+- `jsonforms/offline/index.html`
+
+## Current Capabilities
+- Load local JSON Schema file
+- Dynamic form rendering
+- Validation feedback and highlighted invalid sections/fields
+- Download generated JSON as `configuration.json`
 
 ## Known Limits
-- No `$ref` resolution yet
-- No array editor yet
-- No advanced constraints (`oneOf`, `anyOf`, `allOf`, pattern, min/max, etc.)
-
+- No custom UI schema overrides yet (currently auto-generated with `Generate.uiSchema`)
+- No dedicated automated test suite for the JSON Forms track yet

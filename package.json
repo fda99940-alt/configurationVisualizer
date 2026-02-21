@@ -1,8 +1,23 @@
 {
   "name": "configuration-visualizer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "test": "node --test"
+    "dev:jsonforms": "vite --config jsonforms/vite.config.mjs",
+    "build:jsonforms": "vite build --config jsonforms/vite.config.mjs",
+    "preview:jsonforms": "vite preview --config jsonforms/vite.config.mjs",
+    "build:jsonforms:offline": "node scripts/build-jsonforms-offline.mjs"
+  },
+  "dependencies": {
+    "@jsonforms/core": "^3.6.0",
+    "@jsonforms/react": "^3.6.0",
+    "@jsonforms/vanilla-renderers": "^3.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "esbuild": "^0.25.10",
+    "vite": "^5.4.10"
   }
 }

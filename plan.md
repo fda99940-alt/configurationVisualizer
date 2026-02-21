@@ -1,75 +1,43 @@
 # Schema-Driven Configuration UI Plan
 
 ## Goal
-Given a JSON Schema file (`.json`), the app should dynamically generate a visual configuration UI, let users fill values, and produce a valid JSON configuration file according to that schema.
+Given a JSON Schema file (`.json`), dynamically render a visual configuration UI, let users enter values, and export valid configuration JSON.
 
-## Clarification
-- Interpreting "jsonp schema" as **JSON Schema**.
-- Current implementation targets a practical subset for local usage and iterative expansion.
+## Current Architecture
+- Single implementation track: **JSON Forms**.
+- Renderer + validation engine: JSON Forms + AJV.
+- Runtime: React app served/built with Vite.
+- Offline option: single-file bundled HTML build for `file://` usage.
 
-## Scope (MVP Implemented)
-- Load schema from local file input.
-- Validate root schema shape (`type: object` + `properties`).
-- Dynamically render form controls from schema definitions.
-- Support schema subset:
-  - `object` (including nested objects)
-  - `string`
-  - `number`
-  - `integer`
-  - `boolean`
-  - `enum`
-- Enforce required fields from `required`.
-- Parse typed values and generate JSON output.
-- Download generated JSON as `configuration.json`.
+## Implemented
+- Schema file upload and parsing.
+- Root schema validation (`type: object`, `properties`).
+- Dynamic UI generation from schema (`Generate.uiSchema`).
+- Live validation error display.
+- Visual highlighting for invalid fields/sections.
+- JSON export/download.
+- Offline build script producing `jsonforms/offline/index.html`.
 
 ## Project Structure
-- `index.html`: static structure and semantic regions.
-- `styles.css`: visual design and layout.
-- `app.js`: schema parsing, dynamic rendering, validation, and export logic.
-- `plan.md`: implementation roadmap and constraints.
-- `tests/fixtures/simple-schema.json`: baseline schema used for regression tests.
-- `tests/schema-output.test.js`: output/validation tests for current supported types.
-- `package.json`: local test command.
+- `jsonforms/index.html`
+- `jsonforms/src/main.jsx`
+- `jsonforms/src/App.jsx`
+- `jsonforms/src/defaultSchema.json`
+- `jsonforms/src/styles.css`
+- `jsonforms/vite.config.mjs`
+- `scripts/build-jsonforms-offline.mjs`
+- `plan.md`
 
-## Local Run
-1. Open `index.html` directly in a browser.
-2. Choose a schema file.
-3. Click `Load Schema`.
-4. Fill generated fields.
-5. Click `Generate JSON`.
-6. Click `Download JSON`.
+## Run
+1. `npm install`
+2. `npm run dev:jsonforms`
 
-## Test Workflow
-1. Run `npm test`.
-2. The suite verifies:
-   - correct JSON output from a schema covering current supported types.
-   - required field validation failures.
-   - enum validation failures.
-
-## LLM Generation Rules
-- Keep HTML, CSS, and JS separated.
-- Add new schema capabilities only in `app.js` first.
-- Keep rendered field naming stable using schema path-based IDs.
-- Preserve these key DOM IDs:
-  - `schema-file-input`
-  - `load-schema-btn`
-  - `dynamic-form`
-  - `generate-json-btn`
-  - `download-json-btn`
-  - `output-json`
-  - `error-text`
-- Prefer small pure functions for parsing/validation.
-
-## Known MVP Limits
-- No `$ref` resolution yet.
-- No array item editor yet.
-- No advanced schema constraints yet (`oneOf`, `anyOf`, `allOf`, pattern, min/max, etc.).
-- No formal validator library integration yet.
+## Build
+- Static build: `npm run build:jsonforms`
+- Offline single-file build: `npm run build:jsonforms:offline`
 
 ## Next Steps
-1. Add array support (list editor with add/remove rows).
-2. Add `$ref` support for local definitions.
-3. Add advanced constraints and inline validation feedback.
-4. Add schema examples/default values auto-fill.
-5. Add import/edit existing JSON and re-bind into generated form.
-6. Add a compatibility layer for multiple JSON Schema drafts.
+1. Add custom UI schema generation (tabs/groups/ordering rules).
+2. Add import/edit existing JSON and bind back into the form.
+3. Add JSON Forms-focused automated tests.
+4. Add schema draft compatibility checks and clearer unsupported-feature messaging.

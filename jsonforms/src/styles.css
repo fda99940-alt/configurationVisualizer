@@ -1,0 +1,145 @@
+:root {
+  --bg: #f6f3ee;
+  --surface: #fffdf8;
+  --text: #1c1b1a;
+  --muted: #6b665f;
+  --border: #d9d3c8;
+  --accent: #0f766e;
+  --error: #b42318;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #efe8dc 0%, var(--bg) 45%);
+  color: var(--text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page {
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  padding: 1.2rem 1rem 0.5rem;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header p {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+}
+
+.layout {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 8px 26px rgba(20, 15, 9, 0.08);
+}
+
+.controls input[type="file"] {
+  width: 100%;
+}
+
+.meta {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.form-panel :where(input, select, textarea, button) {
+  font: inherit;
+}
+
+.form-panel :where(input, select, textarea) {
+  width: 100%;
+  padding: 0.45rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.form-panel.has-errors {
+  border-color: color-mix(in srgb, var(--error) 45%, var(--border));
+}
+
+.validation-banner {
+  margin: 0 0 0.8rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--error) 45%, var(--border));
+  background: color-mix(in srgb, var(--error) 8%, #fff);
+  color: #7a120f;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+.form-panel .validation_error {
+  color: var(--error);
+  font-size: 0.86rem;
+  margin-top: 0.25rem;
+}
+
+.form-panel .control:has(.validation_error),
+.form-panel .array-control-layout:has(.validation_error),
+.form-panel .array-table-layout:has(.validation_error),
+.form-panel .group-layout:has(.validation_error) {
+  border-left: 3px solid var(--error);
+  padding-left: 0.55rem;
+}
+
+.form-panel .control:has(.validation_error) :where(input, select, textarea) {
+  border-color: color-mix(in srgb, var(--error) 55%, var(--border));
+  background: color-mix(in srgb, var(--error) 5%, #fff);
+}
+
+.output-panel button {
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+}
+
+.output-panel pre {
+  margin: 0.8rem 0 0;
+  max-height: 320px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.ok {
+  color: #0b7a33;
+  margin: 0.5rem 0 0;
+}
+
+.error-list {
+  margin: 0.5rem 0 0;
+  color: var(--error);
+}
+
+@media (min-width: 980px) {
+  .layout {
+    grid-template-columns: 280px minmax(0, 1fr) 360px;
+    align-items: start;
+  }
+}
