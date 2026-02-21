@@ -12,6 +12,7 @@ export default function App() {
   const [errors, setErrors] = useState([]);
   const [status, setStatus] = useState("Loaded built-in sample schema.");
   const [schemaName, setSchemaName] = useState("defaultSchema.json");
+  const [configName, setConfigName] = useState("None");
 
   const uischema = useMemo(() => Generate.uiSchema(schema), [schema]);
   const jsonOutput = useMemo(() => JSON.stringify(data, null, 2), [data]);
@@ -45,9 +46,37 @@ export default function App() {
       setData({});
       setErrors([]);
       setSchemaName(file.name);
+      setConfigName("None");
       setStatus(`Loaded schema: ${file.name}`);
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Failed to parse schema.");
+    }
+  };
+
+  const handleConfigFile = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      validateConfigData(parsed);
+
+      const isValid = ajv.validate(schema, parsed);
+      const nextErrors = cloneAjvErrors(ajv.errors);
+
+      setData(parsed);
+      setErrors(nextErrors);
+      setConfigName(file.name);
+      setStatus(
+        isValid
+          ? `Loaded configuration: ${file.name}`
+          : `Loaded configuration with ${nextErrors.length} validation issue(s): ${file.name}`
+      );
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Failed to parse configuration.");
     }
   };
 
@@ -72,13 +101,21 @@ export default function App() {
 
       <main className="layout">
         <section className="panel controls">
-          <h2>Schema</h2>
+          <h2>Schema & Data</h2>
+          <h3>Load Schema</h3>
           <input
             type="file"
             accept=".json,application/json"
             onChange={handleSchemaFile}
           />
           <p className="meta">Current schema: {schemaName}</p>
+          <h3>Import Existing Configuration</h3>
+          <input
+            type="file"
+            accept=".json,application/json"
+            onChange={handleConfigFile}
+          />
+          <p className="meta">Current config: {configName}</p>
           <p className="meta">{status}</p>
         </section>
 
@@ -140,4 +177,14 @@ function validateRootSchema(candidate) {
   if (!candidate.properties || typeof candidate.properties !== "object") {
     throw new Error("Root schema must include a properties object.");
   }
+}
+
+function validateConfigData(candidate) {
+  if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) {
+    throw new Error("Configuration file must be a JSON object.");
+  }
+}
+
+function cloneAjvErrors(source) {
+  return Array.isArray(source) ? source.map((entry) => ({ ...entry })) : [];
 }

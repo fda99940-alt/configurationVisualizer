@@ -45,6 +45,7 @@ Open:
 
 ## Current Capabilities
 - Load local JSON Schema file
+- Import existing configuration JSON and bind it into the form for editing
 - Dynamic form rendering
 - Validation feedback and highlighted invalid sections/fields
 - Download generated JSON as `configuration.json`

@@ -11,6 +11,7 @@ Given a JSON Schema file (`.json`), dynamically render a visual configuration UI
 
 ## Implemented
 - Schema file upload and parsing.
+- Existing configuration JSON import and form re-binding.
 - Root schema validation (`type: object`, `properties`).
 - Dynamic UI generation from schema (`Generate.uiSchema`).
 - Live validation error display.
@@ -38,6 +39,5 @@ Given a JSON Schema file (`.json`), dynamically render a visual configuration UI
 
 ## Next Steps
 1. Add custom UI schema generation (tabs/groups/ordering rules).
-2. Add import/edit existing JSON and bind back into the form.
-3. Add JSON Forms-focused automated tests.
-4. Add schema draft compatibility checks and clearer unsupported-feature messaging.
+2. Add JSON Forms-focused automated tests.
+3. Add schema draft compatibility checks and clearer unsupported-feature messaging.

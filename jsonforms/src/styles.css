@@ -58,6 +58,11 @@ body {
   width: 100%;
 }
 
+.controls h3 {
+  margin: 0.75rem 0 0.35rem;
+  font-size: 0.95rem;
+}
+
 .meta {
   margin: 0.5rem 0 0;
   color: var(--muted);
