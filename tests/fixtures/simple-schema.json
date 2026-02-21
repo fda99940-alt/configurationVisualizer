@@ -1,0 +1,35 @@
+{
+  "title": "Simple Config",
+  "type": "object",
+  "required": ["name", "port", "enabled", "mode", "settings"],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["dev", "prod"]
+    },
+    "threshold": {
+      "type": "number"
+    },
+    "settings": {
+      "type": "object",
+      "required": ["region", "retries"],
+      "properties": {
+        "region": {
+          "type": "string"
+        },
+        "retries": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
